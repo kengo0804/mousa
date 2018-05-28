@@ -1,0 +1,88 @@
+<header zーindex>
+    <div head-context>
+     <div class="col-md-3" style="margin-top: 12px;">
+      <%= link_to'MOUSA',top_path,class: "logo" %>
+     </div>
+     <div class="col-md-9" style="margin-top: 25px;">
+      <nav class="nav-top">
+        <ul>
+         <% if user_signed_in? %>
+          <li> <%= link_to'Home',top_path %></li>
+          <li><%= link_to'My page',user_show_path(current_user) %></li>
+          <li><%= link_to 'Log out',destroy_user_session_path, method: :delete %></li>
+           <% else %>
+              <li><%= link_to'Home',top_path %></li>
+          <li><%= link_to'Sign up',new_user_registration_path %></li>
+          <li><%= link_to'Log in',user_session_path %></li>
+         <% end %>
+        </ul>
+      </nav>
+     </div>
+    </div>
+  </header>
+
+<body class="sing-up">
+
+<div class="sign-up-box">
+
+<div class="up-top">Sign up</div>
+
+<div class="up-text">
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+  <%= devise_error_messages! %>
+
+  <div class="field">
+    <div class="field-1">
+    <%= f.text_field :last_name, autocomplete: "last_name",:placeholder => "名前(姓)", :class => 'form-control' %>
+    <%= f.text_field :first_name, autocomplete: "first_name",:placeholder => "名前(名)" , :class => 'form-control' %>
+    </div>
+  </div><br>
+
+  <div class="field">
+    <div class="field-1">
+    <%= f.text_field :last_kana, autocomplete: "last_kana",:placeholder => "名前(姓・カナ)" , :class => 'form-control' %>
+    <%= f.text_field :first_kana, autocomplete: "first_kana",:placeholder => "名前(名・カナ)", :class => 'form-control' %>
+    </div>
+  </div><br>
+
+  <div class="field">
+    <%= f.email_field :email, autofocus: true, autocomplete: "email",:placeholder => "email" , :class => 'form-control'%>
+  </div><br>
+
+  <div class="field">
+    <%= f.text_field  :tell, autocomplete: "tell", :placeholder => "tell" ,:class => "tell-text", :class => 'form-control' %>
+  </div><br>
+
+   <div class="field">
+    <%= f.collection_select :genre_id, Genre.all, :id, :genre_name %>
+    <%= f.collection_select :affiliation_id, Affiliation.all, :id, :affiliation_name %>
+   </div><br>
+
+
+  <div class="field">
+    <%= f.label :password %>
+    <% if @minimum_password_length %>
+    <em>(<%= @minimum_password_length %> characters minimum)</em>
+    <% end %><br />
+    <%= f.password_field :password, autocomplete: "off", :class => 'form-control' %>
+  </div>
+
+  <div class="field">
+    <%= f.label :password_confirmation %><br />
+    <%= f.password_field :password_confirmation, autocomplete: "off", :class => 'form-control' %>
+  </div><br>
+
+  <div class="actions">
+    <%= f.submit "Sign up", class: 'btn btn-primary btn-block' %>
+  </div>
+</div>
+<% end %><br><br><br>
+
+<div class="sign-up-log-in-box">
+<%= render "devise/shared/links" %>
+</div>
+
+</div>
+
+ </body>
+

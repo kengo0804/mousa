@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+
+<link rel="stylesheet" href="css/style.css" type="text/css"/>
+<link rel="stylesheet" href="css/jquery.continuousCalendar-latest-min.css" />
+
+<script src="jquery-3.3.1.min.js"></script>
+<script src="app.js"></script>
+
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+
+<!-- (Optional) Latest compiled and minified JavaScript translation files -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/i18n/defaults-*.min.js"></script>
+
+
+  <title>MOUSA</title>
+</head>
+<body>
+
+	<header zーindex>
+		<div head-context>
+		 <div class="col-md-3" style="margin-top: 12px;">
+			<%= link_to'MOUSA',top_path,class: "logo" %>
+		 </div>
+		 <div class="col-md-9" style="margin-top: 25px;">
+		 	<nav class="nav-top">
+		 		<ul>
+		 		 <% if user_signed_in? %>
+		 			<li><%= link_to'Home',top_path %></li>
+		 			<li><%= link_to'My page',user_show_path(current_user) %></li>
+		 			<li><%= link_to 'Log out',destroy_user_session_path, method: :delete %></li>
+		 	     <% else %>
+		 	        <li><%= link_to'Home',top_path %></li>
+		 			<li><%= link_to'Sign up',new_user_registration_path %></li>
+		 			<li><%= link_to'Log in',user_session_path %></li>
+		 		 <% end %>
+		 		</ul>
+		 	</nav>
+		 </div>
+		</div>
+	</header><!-- /header -->
+	<div class="col-md-2" style="padding-left: 0">
+		<div class="side-box">
+			<nav>
+			   <ul class="side-nav">
+					<li>Serch</li>
+					<% provide(:first_name, 'All users') %>
+					<%= search_form_for(@q, url: tops_search_path) do |f| %>
+
+					<div class="form-group">
+						<%#= f.label :first_name, "Name" %>
+						<%= f.search_field :first_name_or_last_name_cont, class: "form-control" %>
+					</div>
+					<%= f.collection_select :genre_id_eq, Genre.all,:id, :genre_name , {:include_blank => 'Genre'} ,{:class => "form-control"} %>
+					<div class="affiliation_select">
+						<%= f.collection_select :affiliation_id_eq, Affiliation.all,:id, :affiliation_name , {:include_blank => 'Instrument'} ,{:class => "form-control"} %>
+					</div>
+					<%= f.submit "Search",class: 'btn btn-primary btn-block' %>
+					<% end %><br>
+				</ul>
+			</nav>
+		</div>
+   </div>
+   <div class="col-md-10">
+	<div class="main-content">
+          <div class="name">
+             <%= @user.last_name %> <%= @user.first_name %><br>
+			 <h3><%= @user.genre.genre_name %></h3>
+          </div>
+          <div class="user_introduction">
+          	 <div class="user_image">
+          		<%= attachment_image_tag @user, :user_image, :fill, 150, 150, format: 'jpeg', class: "user_shot_edit" %>
+          	 </div><br>
+          	 <div class="user-intro-text">
+          		<h2>introduction</h2><%= @user.body %>
+             </div>
+          </div>
+
+		<%#= @user_images %>
+		<%  if @user.id == current_user.id %>
+			<%= link_to "編集", edit_user_path(@user), class: 'btn btn-primary' %>
+		<% else %>
+			<%= link_to "編集", new_user_session_path, class: 'btn btn-primary' %>
+		<% end %>
+
+			<nav>
+				<div class="nav nav-tabs" id="nav-tab" role="tablist">
+
+					<a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Track</a>
+
+					<a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Use Instrument</a>
+        <% if @user.id != current_user.id %>
+					<a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Job Request</a>
+
+        <% elsif @user.id == current_user.id %>
+					<a class="nav-item nav-link" id="nav-reception-tab" data-toggle="tab" href="#nav-reception" role="tab" aria-controls="nav-reception" aria-selected="false">Reception</a>
+
+					<a class="nav-item nav-link" id="nav-order_history-tab" data-toggle="tab" href="#nav-order_history" role="tab" aria-controls="nav-order_history" aria-selected="false">Order History</a>
+		<% else %>
+
+	    <% end %>
+				</div>
+			</nav>
+
+			<div class="tab-content" id="nav-tabContent">
+				<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+					<div class="add-song"><br>
+						<h1 class="head-text">Tracks</h1>
+                       <%= link_to "Add", new_song_path, class: 'btn btn-primary' %>
+                   </div>
+				</div>
+	   <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+          <br>
+		  <h2>Use Instrument</h2>
+		  <% if @user.id == current_user.id %>
+		  <%= link_to "Add", new_instrument_path, class: 'btn btn-primary' %>
+          <% end %>
+		  <table class="table table-hover">
+			 <thead>
+				  <tr>
+					 <th scope="col">Image</th>
+					 <th scope="col">Instrument-name</th>
+					 <th scope="col">Introduction</th>
+					 <th scope="col"></th>
+				  </tr>
+			  </thead>
+			  <% @user.instruments.each do |instrument| %>
+				  <tbody>
+					  <td style="width: 200px">
+					      <%= attachment_image_tag instrument, :image, :fill, 80, 80, format: 'jpeg' %></td>
+					  <td style="width: 250px"><%=link_to instrument.instrument_name,instrument_path(instrument.id) %></td>
+					  <td>Introduction</td>
+					  <td style="width: 150px">
+					  	<%= link_to "edit", edit_instrument_path(instrument.id), class: 'btn btn-primary' %>
+					  	<%= link_to "delete", user_instrument_path(instrument.id), class: 'btn btn-danger', method: :delete, "data-confirm" => "本当に削除しますか？" %></td>
+				  </tbody>
+			 <% end %>
+		  </table>
+		  </div>
+
+				<div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab"><br>
+				  <h2>Order Content</h2><br>
+				   <div class="order-box">
+                     <%= form_for @order do |f| %>
+                     <div class="order-box">
+					 <%= f.select :course, [["Compose","Compose"],["Arrangement","Arrangement"],["Solo","Solo"],["Bucking","Bucking"],["Live suport","Live suport"],["Cast request","Cast request"]], {:include_blank => 'Course'} ,{:class => "form-control"} %><br>
+					 <%= f.select :budget, [["＄30〜50", "＄30〜50"], ["＄50〜100", "＄50〜100"], ["＄100〜200", "＄100〜200"], ["＄300〜400", "＄300〜400"], ["＄400〜500", "＄400〜500"], ["＄500〜600", "＄500〜600"], ["＄60〜", "＄60〜"]], {:include_blank => 'Budget'} ,{:class => "form-control"}  %><br>
+					 </div>
+					 <%= f.hidden_field :receveid%>
+					 <span></span>Estimated delivery time</span><br>
+                     <%= f.text_field :delivery_date %><br><br>
+
+                     <span></span>Reply Deadline</span><br>
+                     <%= f.text_field :reply_deadline %><br><br>
+
+                     <span></span>More detail</span><br>
+                     <%= f.text_area :description, :size=>"60x5" %>
+
+                     <%= f.submit 'Order', class: 'btn btn-primary' %>
+                     <% end %><br>
+                  </div>
+				</div>
+				<div class="tab-pane fade" id="nav-reception" role="tabpanel" aria-labelledby="nav-reception-tab">
+					<br><h2>Reception</h2>
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th scope="col">image</th>
+								<th scope="col">name</th>
+								<th scope="col">course</th>
+								<th scope="col">Budget</th>
+								<th scope="col">description</th>
+								<th scope="col">delivery_date</th>
+								<th scope="col">Reply Deadline</th>
+							</tr>
+						</thead>
+						<% @user.receptions.each do |reception| %>
+						   <tbody>
+							 <td style="width: 120px">
+							 	<%= link_to user_show_path(reception.order.user) do %>
+							 	<%= attachment_image_tag reception.order.user, :user_image, :fill, 80, 80, format: 'jpeg' %>
+							 		<% end %>
+							 	</td>
+							 <td style="width: 120px"><%= reception.order.user.first_name %><%= reception.order.user.last_name %></td>
+							 <td style="width: 130px"><%= reception.order.course %></td>
+							    <td style="width: 120px"><%= reception.order.budget %></td>
+							    <td style="width: 450px"><%= reception.order.description %></td>
+								<td style="width: 120px"><%= reception.order.delivery_date %></td>
+								<td style="width: 120px"><%= reception.order.reply_deadline %></td>
+							</tbody>
+						 <% end %>
+						</table>
+						<%#= reception.order.budget %>
+						<%#= @order.description %>
+				</div>
+				<div class="tab-pane fade" id="nav-order_history" role="tabpanel" aria-labelledby="nav-order_history-tab">
+					<br><h2>Order History</h2>
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th scope="col">image</th>
+								<th scope="col">Request destination</th>
+								<th scope="col">course</th>
+								<th scope="col">Budget</th>
+								<th scope="col">description</th>
+								<th scope="col">delivery_date</th>
+								<th scope="col">Reply Deadline</th>
+							</tr>
+						</thead>
+						<% @user.orders.each do |order| %>
+						<% order.receptions.each do |reception| %>
+						   <tbody>
+							 <td style="width: 120px">
+							 	<%= link_to user_show_path(reception.user) do %>
+								 	<%= attachment_image_tag reception.user, :user_image, :fill, 80, 80, format: 'jpeg' %>
+							 	<% end %>
+							 	</td>
+							 <td style="width: 120px"><%= reception.user.last_name %> <%= reception.user.first_name %></td>
+							 <td style="width: 130px"><%= order.course %></td>
+							    <td style="width: 120px"><%= order.budget %></td>
+							    <td style="width: 450px"><%= order.description %></td>
+								<td style="width: 120px"><%= order.delivery_date %></td>
+								<td style="width: 120px"><%= order.reply_deadline %></td>
+							</tbody>
+						 <% end %>
+						 <% end %>
+						</table>
+				</div>
+	  </div>
+     </div>
+	</div>
+   </div>
+
+</body>
+</html>
+

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+
+	<title>MOUSA</title>
+</head>
+<body>
+	<header zーindex>
+		<div head-context>
+			<div class="col-md-3" style="margin-top: 12px;">
+				<%= link_to'MOUSA',top_path,class: "logo" %>
+			</div>
+			<div class="col-md-9" style="margin-top: 25px;">
+				<nav class="nav-top">
+					<ul>
+						<% if user_signed_in? %>
+						<li> <%= link_to'Home',top_path %></li>
+						<li><%= link_to'My page',user_show_path(current_user) %></li>
+						<li><%= link_to 'Log out',destroy_user_session_path, method: :delete %></li>
+						<% else %>
+						<li><%= link_to'Home',top_path %></li>
+						<li><%= link_to'Sign up',new_user_registration_path %></li>
+						<li><%= link_to'Log in',user_session_path %></li>
+						<% end %>
+					</ul>
+				</nav>
+			</div>
+		</div>
+	</header><!-- /header -->
+	<div class="col-md-2" style="padding-left: 0">
+		<div class="side-box">
+			<nav>
+				<ul class="side-nav">
+					<li>Serch</li>
+					<% provide(:first_name, 'All users') %>
+					<%= search_form_for(@q, url: tops_search_path) do |f| %>
+
+					<div class="form-group">
+						<%#= f.label :first_name, "Name" %>
+						<%= f.search_field :first_name_or_last_name_cont, class: "form-control" %>
+					</div>
+					<%= f.collection_select :genre_id_eq, Genre.all,:id, :genre_name , {:include_blank => 'Genre'} ,{:class => "form-control"} %>
+					<div class="affiliation_select">
+						<%= f.collection_select :affiliation_id_eq, Affiliation.all,:id, :affiliation_name , {:include_blank => 'Instrument'} ,{:class => "form-control"} %>
+					</div>
+					<%= f.submit "Search",class: 'btn btn-primary btn-block' %>
+					<% end %><br>
+				</ul>
+			</nav>
+		</div>
+	</div>
+	<div class="col-md-10">
+		<div class="main-content">
+			<div class="main-title">Main Content</div>
+
+			<% @users.each do |user| %>
+			<div class="card box1 animated" style="width: 18rem;">
+				<%= attachment_image_tag user, :user_image, :fill, 150, 150, format: 'jpeg' %>
+				<div class="card-body">
+					<div class="top_name_text">
+						<%= user.last_name %> <%= user.first_name %>
+						<h6><%= user.affiliation.affiliation_name %> / <%= user.genre.genre_name %></h6>
+					</div>
+					<%= user.body%>
+				</div>
+				<span class="user-go">
+					<%= link_to 'Go user Page', user_show_path(user), class: 'btn btn-primary'%>
+				</span>
+			</div>
+			<% end %>
+		</div>
+
+	</div>
+
+</body>
+</html>
+
