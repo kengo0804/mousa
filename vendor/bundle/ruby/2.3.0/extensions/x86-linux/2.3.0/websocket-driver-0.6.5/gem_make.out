@@ -1,0 +1,21 @@
+current directory: /vagrant/mousa/vendor/bundle/ruby/2.3.0/gems/websocket-driver-0.6.5/ext/websocket-driver
+/usr/bin/ruby2.3 -r ./siteconf20180529-2865-8ebb5r.rb extconf.rb
+creating Makefile
+
+current directory: /vagrant/mousa/vendor/bundle/ruby/2.3.0/gems/websocket-driver-0.6.5/ext/websocket-driver
+make "DESTDIR=" clean
+make: Warning: File `Makefile' has modification time 7.9e+02 s in the future
+make: warning:  Clock skew detected.  Your build may be incomplete.
+
+current directory: /vagrant/mousa/vendor/bundle/ruby/2.3.0/gems/websocket-driver-0.6.5/ext/websocket-driver
+make "DESTDIR="
+make: Warning: File `Makefile' has modification time 7.9e+02 s in the future
+compiling websocket_mask.c
+linking shared-object websocket_mask.so
+make: warning:  Clock skew detected.  Your build may be incomplete.
+
+current directory: /vagrant/mousa/vendor/bundle/ruby/2.3.0/gems/websocket-driver-0.6.5/ext/websocket-driver
+make "DESTDIR=" install
+make: Warning: File `Makefile' has modification time 7.9e+02 s in the future
+/usr/bin/install -c -m 0755 websocket_mask.so ./.gem.20180529-2865-nxa1l9
+make: warning:  Clock skew detected.  Your build may be incomplete.

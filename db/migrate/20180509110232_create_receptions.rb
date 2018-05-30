@@ -1,6 +1,6 @@
 class CreateReceptions < ActiveRecord::Migration[5.1]
   def change
-    create_table :receptions do |t|
+    create_table :receptions, :options => 'ENGINE=InnoDB ROW_FORMAT=DYNAMIC' do |t|
       t.integer :user_id
       t.integer :order_id
       t.datetime :created_at
