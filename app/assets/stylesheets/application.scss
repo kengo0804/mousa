@@ -30,10 +30,11 @@ header{
 	box-shadow:  0px 14px 32px 0px rgba(0, 0, 0, 0.18);
 	position: fixed;
 	z-index:1000;
-	opacity: 0.7;
+	opacity: 0.9;
 	filter:alpha(opacity=50);
-	-moz-opacity: 0.5;
+	-moz-opacity: 0.9;
 }
+
 
 body{
 	color: #808080;
@@ -138,7 +139,7 @@ body{
 	height: 575px;
     box-shadow:  0px 14px 32px 0px rgba(0, 0, 0, 0.25);
     margin-left: 400px;
-    background-color:#bd9a5e;
+    background-color:#435e75;
     color:#bd9a5e;
 }
 
@@ -185,3 +186,26 @@ body{
 .btn-danger:hover {
   box-shadow:  0px 14px 32px 0px rgba(0, 0, 0, 0.25);
 }
+
+.follow-btn{
+	width:150px;
+}
+
+/*フォローしている人一覧画面*/
+.following-title{
+	font-size:50px;
+	margin-left:100px;
+}
+
+.follwing-box{
+	padding-top:100px;
+}
+
+.following-link{
+	margin-left:300px;
+}
+
+.followings-cards{
+	margin-left:200px;
+}
+

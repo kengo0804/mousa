@@ -1,0 +1,24 @@
+<div class="follwing-box">
+</div>
+
+<div class="following-title">
+	Followings
+ </div>
+
+<div class="followings-cards">
+  <% @user.followings.each do |user| %>
+      <div class="card box1 animated" style="width: 18rem;">
+				<%= attachment_image_tag user, :user_image, :fill, 150, 150, format: 'jpeg' %>
+				<div class="card-body">
+					<div class="top_name_text">
+						<%= user.last_name %> <%= user.first_name %><br>
+						<h6><%= user.affiliation.affiliation_name %> / <%= user.genre.genre_name %></h6>
+					</div>
+					<%= user.body%>
+				</div>
+				<span class="user-go">
+					<%= link_to 'Go user Page', user_show_path(user), class: 'btn btn-primary'%>
+				</span>
+	  </div>
+ <% end %>
+</div>

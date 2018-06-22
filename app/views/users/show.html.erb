@@ -5,18 +5,7 @@
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
-
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
-
-<link rel="stylesheet" href="css/style.css" type="text/css"/>
-<link rel="stylesheet" href="css/jquery.continuousCalendar-latest-min.css" />
-
-<script src="jquery-3.3.1.min.js"></script>
-<script src="app.js"></script>
-
 
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
@@ -27,33 +16,9 @@
 <!-- (Optional) Latest compiled and minified JavaScript translation files -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/i18n/defaults-*.min.js"></script>
 
-
   <title>MOUSA</title>
 </head>
 <body>
-
-	<header zーindex>
-		<div head-context>
-		 <div class="col-md-3" style="margin-top: 12px;">
-			<%= link_to'MOUSA',top_path,class: "logo" %>
-		 </div>
-		 <div class="col-md-9" style="margin-top: 25px;">
-		 	<nav class="nav-top">
-		 		<ul>
-		 		 <% if user_signed_in? %>
-		 			<li><%= link_to'Home',top_path %></li>
-		 			<li><%= link_to'My page',user_show_path(current_user) %></li>
-		 			<li><%= link_to 'Log out',destroy_user_session_path, method: :delete %></li>
-		 	     <% else %>
-		 	        <li><%= link_to'Home',top_path %></li>
-		 			<li><%= link_to'Sign up',new_user_registration_path %></li>
-		 			<li><%= link_to'Log in',user_session_path %></li>
-		 		 <% end %>
-		 		</ul>
-		 	</nav>
-		 </div>
-		</div>
-	</header><!-- /header -->
 	<div class="col-md-2" style="padding-left: 0">
 		<div class="side-box">
 			<nav>
@@ -86,16 +51,15 @@
           	 <div class="user_image">
           		<%= attachment_image_tag @user, :user_image, :fill, 150, 150, format: 'jpeg', class: "user_shot_edit" %>
           	 </div><br>
+          	 <%= render 'follow_form' %>
+             <%= render 'stats' %>
           	 <div class="user-intro-text">
           		<h2>introduction</h2><%= @user.body %>
              </div>
           </div>
-
 		<%#= @user_images %>
 		<%  if @user.id == current_user.id %>
-			<%= link_to "編集", edit_user_path(@user), class: 'btn btn-primary' %>
-		<% else %>
-			<%= link_to "編集", new_user_session_path, class: 'btn btn-primary' %>
+			<%= link_to "Edit", edit_user_path(@user), class: 'btn btn-primary' %>
 		<% end %>
 
 			<nav>
@@ -104,11 +68,13 @@
 					<a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Track</a>
 
 					<a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Use Instrument</a>
+
+					<a class="nav-item nav-link" id="nav-live-tab" data-toggle="tab" href="#nav-live" role="tab" aria-controls="nav-live" aria-selected="false">Live Schedule</a>
         <% if @user.id != current_user.id %>
 					<a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Job Request</a>
 
         <% elsif @user.id == current_user.id %>
-					<a class="nav-item nav-link" id="nav-reception-tab" data-toggle="tab" href="#nav-reception" role="tab" aria-controls="nav-reception" aria-selected="false">Reception</a>
+					<a class="nav-item nav-link" id="nav-reception-tab" data-toggle="tab" href="#nav-reception" role="tab" aria-controls="nav-reception" aria-selected="false">Job Reception</a>
 
 					<a class="nav-item nav-link" id="nav-order_history-tab" data-toggle="tab" href="#nav-order_history" role="tab" aria-controls="nav-order_history" aria-selected="false">Order History</a>
 		<% else %>
@@ -144,12 +110,38 @@
 					  <td style="width: 200px">
 					      <%= attachment_image_tag instrument, :image, :fill, 80, 80, format: 'jpeg' %></td>
 					  <td style="width: 250px"><%=link_to instrument.instrument_name,instrument_path(instrument.id) %></td>
-					  <td>Introduction</td>
+					  <td><%= instrument.introduction %></td>
 					  <td style="width: 150px">
 					  	<%= link_to "edit", edit_instrument_path(instrument.id), class: 'btn btn-primary' %>
 					  	<%= link_to "delete", user_instrument_path(instrument.id), class: 'btn btn-danger', method: :delete, "data-confirm" => "本当に削除しますか？" %></td>
 				  </tbody>
 			 <% end %>
+		  </table>
+		  </div>
+
+		  <div class="tab-pane fade" id="nav-live" role="tabpanel" aria-labelledby="nav-live-tab"><br>
+		  	  <h2>Live Schedule</h2><br>
+		  	  <table class="table table-hover">
+			 <thead>
+				  <tr>
+					 <th scope="col">Image</th>
+					 <th scope="col">Title</th>
+					 <th scope="col">Date</th>
+					 <th scope="col">Location</th>
+					 <th scope="col">Price</th>
+				  </tr>
+			  </thead>
+			  <%# @user.instruments.each do |instrument| %>
+				  <tbody>
+					  <td style="width: 200px">
+					      <%#= attachment_image_tag instrument, :image, :fill, 80, 80, format: 'jpeg' %></td>
+					  <td style="width: 250px"><%#=link_to instrument.instrument_name,instrument_path(instrument.id) %></td>
+					  <td><%#= instrument.introduction %></td>
+					  <td style="width: 200px">
+					  	<%#= link_to "edit", edit_instrument_path(instrument.id), class: 'btn btn-primary' %>
+					  	<%#= link_to "delete", user_instrument_path(instrument.id), class: 'btn btn-danger', method: :delete, "data-confirm" => "本当に削除しますか？" %></td>
+				  </tbody>
+			 <%# end %>
 		  </table>
 		  </div>
 
@@ -176,16 +168,16 @@
                   </div>
 				</div>
 				<div class="tab-pane fade" id="nav-reception" role="tabpanel" aria-labelledby="nav-reception-tab">
-					<br><h2>Reception</h2>
+					<br><h2>Job Reception</h2>
 					<table class="table table-hover">
 						<thead>
 							<tr>
-								<th scope="col">image</th>
-								<th scope="col">name</th>
-								<th scope="col">course</th>
+								<th scope="col">Image</th>
+								<th scope="col">Name</th>
+								<th scope="col">Course</th>
 								<th scope="col">Budget</th>
-								<th scope="col">description</th>
-								<th scope="col">delivery_date</th>
+								<th scope="col">Description</th>
+								<th scope="col">Delivery_date</th>
 								<th scope="col">Reply Deadline</th>
 							</tr>
 						</thead>
@@ -213,12 +205,12 @@
 					<table class="table table-hover">
 						<thead>
 							<tr>
-								<th scope="col">image</th>
-								<th scope="col">Request destination</th>
-								<th scope="col">course</th>
+								<th scope="col">Image</th>
+								<th scope="col">Name</th>
+								<th scope="col">Course</th>
 								<th scope="col">Budget</th>
-								<th scope="col">description</th>
-								<th scope="col">delivery_date</th>
+								<th scope="col">Description</th>
+								<th scope="col">Delivery_date</th>
 								<th scope="col">Reply Deadline</th>
 							</tr>
 						</thead>
@@ -241,11 +233,10 @@
 						 <% end %>
 						</table>
 				</div>
-	  </div>
-     </div>
+	      </div>
+       </div>
 	</div>
    </div>
-
 </body>
 </html>
 

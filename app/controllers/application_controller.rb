@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
 
   protected
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:first_name,:last_name,:first_kana,:last_kana,:tell])
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:first_name,:last_name,:first_kana,:last_kana,:tell,:genre_id,:affiliation_id])
     #editのとき保存をデバイズに許可させる
     devise_parameter_sanitizer.permit(:account_update, keys: [:first_name,:last_name,:first_kana,:last_kana,:tell,:user_image,:title,:body,:genre_id])
   end
