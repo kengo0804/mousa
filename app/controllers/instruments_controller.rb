@@ -32,7 +32,7 @@ class InstrumentsController < ApplicationController
   private
 
   def instrument_params
-        params.require(:instrument).permit(:instrument_name, :image)
+        params.require(:instrument).permit(:instrument_name, :image, :introduction)
     end
 end
 

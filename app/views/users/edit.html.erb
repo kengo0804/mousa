@@ -4,51 +4,49 @@
 
 <div class="user_edit">Profiele Edit Erea</div>
 
+ <div class="user_edit_text">
 
-<div class="user_edit_text">
-
-    <div class="container"> <!-- ここを追加 -->
-      <div class="row">   <!-- ここを追加 -->
-        <div class="col-lg-4">
-          <%= form_for(@user) do |f| %>
-          <h4></h4>
-             <%= attachment_image_tag current_user, :user_image, :fill, 300, 300, format: 'jpeg', class: "user_shot_edit" %><br><br>
-          <%= f.attachment_field :user_image %><br>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-4">
+         <%= form_for(@user) do |f| %>
+         <h4></h4>
+         <%= attachment_image_tag current_user, :user_image, :fill, 300, 300, format: 'jpeg', class: "user_shot_edit" %><br><br>
+         <%= f.attachment_field :user_image %><br>
       </div>
-      <div class="col-lg-8">  <!-- ここを追加 -->
-        <h4> Name</h4>
-        <div class="name-edit">
+      <div class="col-lg-8">
+         <h4> Name</h4>
+         <div class="name-edit">
            <%= f.text_field :last_name ,class: "form-control" %><%= f.text_field :first_name ,class: "form-control" %>
-       </div><br>
-       <div class="name-edit">
+         </div><br>
+         <div class="name-edit">
            <%= f.text_field :last_kana ,class: "form-control" %><%= f.text_field :first_kana ,class: "form-control" %>
-       </div><br>
+         </div><br>
 
-       <div class="name-edit">
-        <%= f.collection_select :affiliation_id, Affiliation.all, :id, :affiliation_name,  {} ,{:class => "form-control"} %>
-        <%= f.collection_select :genre_id, Genre.all, :id, :genre_name,  {} ,{:class => "form-control"} %>
-       </div>
+         <div class="name-edit">
+           <%= f.collection_select :affiliation_id, Affiliation.all, :id, :affiliation_name,  {} ,{:class => "form-control"} %>
+           <%= f.collection_select :genre_id, Genre.all, :id, :genre_name,  {} ,{:class => "form-control"} %>
+         </div>
 
-       <h4>Tell</h4>
-       <div class="name-edit">
+         <h4>Tell</h4>
+         <div class="name-edit">
            <%= f.text_field :tell ,class: "form-control" %>
-       </div>
-       <h4>Email</h4>
-       <div class="name-edit">
+         </div>
+
+         <h4>Email</h4>
+         <div class="name-edit">
            <%= f.text_field :email ,class: "form-control" %>
-       </div>
+         </div>
 
-       <h4>Introduction</h4>
-       <div class="name-edit">
+         <h4>Introduction</h4>
+         <div class="name-edit">
            <%= f.text_area :body, class: "form-control",:rows =>10 %>
-       </div>
-
-       <div class="edit-bottan">
-        <%= f.submit ' OK ' ,class: 'btn btn-primary'%>
-    </div><br>
-
+         </div>
+         <div class="edit-bottan">
+           <%= f.submit ' OK ' ,class: 'btn btn-primary'%>
+         </div><br>
     <% end %>
-</div>
-</div>  <!-- ここを追加 -->
-</div>      <!-- ここを追加 -->
+   </div>
+  </div>
+ </div>
 </div>
