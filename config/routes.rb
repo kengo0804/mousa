@@ -2,6 +2,7 @@ Rails.application.routes.draw do
 
   resources :instruments, only: [:index, :show, :edit, :new, :create, :destroy]
   resources :order, only: [:index]
+  resources :live_schedules
 
   devise_for :user
   get '/' => 'tops#index',as:'top'

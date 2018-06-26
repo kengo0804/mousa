@@ -1,6 +1,6 @@
 class CreateGenres < ActiveRecord::Migration[5.1]
   def change
-    create_table :genres, :options => 'ENGINE=InnoDB ROW_FORMAT=DYNAMIC' do |t|
+    create_table :genres do |t|
       t.integer :gener_id
       t.integer :user_id
       t.string :genre_name

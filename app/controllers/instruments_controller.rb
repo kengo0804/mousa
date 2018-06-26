@@ -20,6 +20,7 @@ class InstrumentsController < ApplicationController
   end
 
   def edit
+      instruments = Instrument.find(params[:id])
   end
 
   def destroy

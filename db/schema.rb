@@ -10,15 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180619085934) do
+ActiveRecord::Schema.define(version: 20180625150136) do
 
   create_table "affiliations", force: :cascade do |t|
-    t.string "affiliation_name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "affirmations", force: :cascade do |t|
     t.string "affiliation_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -59,6 +53,8 @@ ActiveRecord::Schema.define(version: 20180619085934) do
     t.integer "order_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_receptions_on_order_id"
+    t.index ["user_id"], name: "index_receptions_on_user_id"
   end
 
   create_table "relationships", force: :cascade do |t|
@@ -67,6 +63,16 @@ ActiveRecord::Schema.define(version: 20180619085934) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "following_id"
+  end
+
+  create_table "schedules", force: :cascade do |t|
+    t.text "live_image"
+    t.string "live_title"
+    t.string "live_date"
+    t.string "live_location"
+    t.integer "live_price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "songs", force: :cascade do |t|

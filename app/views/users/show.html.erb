@@ -112,15 +112,20 @@
 					  <td style="width: 250px"><%=link_to instrument.instrument_name,instrument_path(instrument.id) %></td>
 					  <td><%= instrument.introduction %></td>
 					  <td style="width: 150px">
+				<%  if @user.id == current_user.id %>
 					  	<%= link_to "edit", edit_instrument_path(instrument.id), class: 'btn btn-primary' %>
 					  	<%= link_to "delete", user_instrument_path(instrument.id), class: 'btn btn-danger', method: :delete, "data-confirm" => "本当に削除しますか？" %></td>
+			    <% end %>
 				  </tbody>
 			 <% end %>
 		  </table>
 		  </div>
 
 		  <div class="tab-pane fade" id="nav-live" role="tabpanel" aria-labelledby="nav-live-tab"><br>
-		  	  <h2>Live Schedule</h2><br>
+		  	  <h2>Live Schedule</h2>
+		     <% if @user.id == current_user.id %>
+		           <%#= link_to "Add", new_live_schedule_path, class: 'btn btn-primary' %>
+             <% end %>
 		  	  <table class="table table-hover">
 			 <thead>
 				  <tr>
